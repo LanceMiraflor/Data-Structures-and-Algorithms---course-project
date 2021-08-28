@@ -1,0 +1,401 @@
+#include <iostream>
+
+using namespace std;
+
+//Global Variables
+bool mainMenuLoop=true, queueLoop=true, binaryLoop=true;
+int mainListChoice=0, queueChoice=0, queueSize=0,tempVariable=0, binaryChoice=0, binaryTemp=0;
+
+
+//Menu Lists Class
+class menuLists
+{
+	public:
+		void mainMenuList()//Main Menu List texts
+		{
+			cout << "Welcome to the DS Runner. Please select a number for your desired data structure to run.\n";
+			cout << "[1]Queues\n";
+			cout << "[2]Binary Tree\n";
+			cout << "[3]Exit the program\n";
+			cout << "Enter Number:";
+		}
+		void queueMenuList()//Queue List texts
+		{
+			cout << "Queue OPERATIONS USING ARRAY\t|\n";
+			cout << "---------------------------------\n";			
+			cout << "[1]Enqueue\t\t\t|\n";
+			cout << "[2]Dequeue\t\t\t|\n";
+			cout << "[3]Display\t\t\t|\n";
+			cout << "[4]Check Front\t\t\t|\n";
+			cout << "[5]Check Rear\t\t\t|\n";
+			cout << "[6]Exit\t\t\t\t|\n";
+			cout << "\nEnter Choice:";
+		}
+		void binaryMenuList()//Binary List texts
+		{
+			cout << "BINARY TREE OPTIONS\t\t\t|\n";
+			cout << "-----------------------------------------\n";		
+			cout << "[1]Insert an element in the tree\t|\n";
+			cout << "[2]Inorder Traversal\t\t\t|\n";
+			cout << "[3]Preorder Traversal\t\t\t|\n";
+			cout << "[4]Postorder Traversal\t\t\t|\n";
+			cout << "[5]Exit\t\t\t\t\t|\n";
+			cout << "Enter Choice:";
+		}
+};
+
+class Queue 
+{
+	private:
+		int front, rear, queueSize=0;
+		int arr[4];//Default Set
+	public:
+		
+		Queue()
+		{
+			front = -1;
+			rear = -1;
+		}
+		
+		void setQueueSize(int x)//Sets the Queue Size
+		{
+			this->queueSize = x;
+			this->arr[this->queueSize];
+			for(int i = 0; i<x; i++)
+			{
+				this->arr[this->queueSize] = 0;
+			}
+		}
+		
+		bool isEmpty()//Checks the Queue if empty 
+		{
+			if(front==-1&&rear==-1)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
+		bool isFull()//Checks the Queue if full 
+		{
+			if(rear==queueSize-1)
+			{
+				return true;
+			}else{
+				return false;
+			}
+		}
+		void enqueue(int x)//Checks the Queue if it is full before enqueue
+		{
+			if(isFull())
+			{
+				cout << "The Queue is Full!"  << endl;
+				return;
+			}else if(isEmpty())//If Empty put the value on the first array
+			{
+				rear = 0;
+				front = 0;
+				arr[rear] = x;
+				cout << x << " is Eqneueued" << endl;
+			}else{//If not empty and full adds an increment and sets the value of the array
+				rear++;
+				arr[rear] = x;
+				cout << x << " is Eqneueued" << endl;
+			}
+		}
+		
+		int dequeue()//Checks the Queue if it has value
+		{
+			int tempx=0;
+			if(isEmpty()){
+				cout << "The Queue is Empty!" << endl;
+				return 0;
+			}else if(front == rear)//Dequeue for the first value
+			{
+				tempx = arr[front];
+				arr[front] = 0;
+				front = -1;
+				rear = -1;
+				return tempx; //returns the dequeued value
+			}else//if the value not empty and not the first row in the array, sets the row to '0' and adds an increment to front
+			{
+				tempx = arr[front];
+				arr[front] = 0;
+				front++;
+				return tempx;//returns the dequeued value
+			}
+		}
+		
+		int checkFront()//Prints out the first value in queue if not empty
+		{
+			if(isEmpty())
+			{
+				cout << "The Queue is Empty!" << endl;
+				return 0;
+			}else
+			{
+				return arr[front];
+			}
+		}
+		
+		int checkRear()//Prints the last available value in the queue if not empty
+		{
+			if(isEmpty())
+			{
+				cout << "The Queue is Empty!" << endl;
+				return 0;
+			}else
+			{
+				return arr[rear];
+			}
+		}
+		
+		void display()//Prints out all the available values in the queue if not empty
+		{
+			if(isEmpty())
+			{
+				cout << "The Queue is Empty!" << endl;
+				return;
+			}else
+			{
+				for(int i=0; i<=rear; i++)
+				{
+					cout << arr[i] << "|";
+				}
+				cout << endl;
+			}
+			
+		}
+};
+
+//Binary tree
+class TreeNode
+{
+	public:
+		int value;
+		TreeNode *left;
+		TreeNode *right;
+		
+		TreeNode()
+		{
+			value = 0;
+			left = NULL;
+			right = NULL;
+		}
+};
+
+class BST
+{
+	public: 
+		TreeNode *root;
+
+	BST()
+	{
+		root = NULL;
+	}
+	
+	void insertNode(TreeNode *new_node)
+	{
+		if(root == NULL)
+		{
+			root = new_node;
+			cout << "Value inserted as root node!\n";
+		}else
+		{
+			TreeNode *temp = root;
+			while(temp != NULL)
+			{
+				if(new_node->value == temp->value)
+				{
+					cout << "The value already exists!!\n";
+					return;
+				}else if((new_node->value < temp->value) && (temp->left == NULL))
+				{
+					temp->left = new_node;
+					cout << "Value inserted to the left Node.\n";
+					break;
+				}else if(new_node->value < temp->value)
+				{
+					temp = temp->left;
+				}else if((new_node->value > temp->value) && (temp->right == NULL))
+				{
+					temp->right = new_node;
+					cout << "Value inserted to the right Node.\n";
+					break;
+				}else
+				{
+					temp = temp->right;
+				}
+				
+			}
+		}
+	}
+
+	void printInorder(TreeNode *printVariable)
+	{
+		if(printVariable == NULL)
+		{
+			return;
+		}
+		printInorder(printVariable->left); //Sets the value to left child
+		cout << printVariable->value << " | "; //Prints the Output
+		printInorder(printVariable->right); //Sets the value to right child
+	}
+
+	void printPreorder(TreeNode *printVariable)
+	{
+		if(printVariable == NULL)
+		{
+			return;
+		}
+		cout << printVariable->value << " | "; //Prints out the root
+		printPreorder(printVariable->left); //Sets the value to left child
+		printPreorder(printVariable->right);  //Sets the value to right child
+	}
+	
+	void printPostorder(TreeNode *printVariable)
+	{
+		if(printVariable == NULL)
+		{
+			return;
+		}
+	    printPostorder(printVariable->left); //Sets the value to the left child
+	    printPostorder(printVariable->right); //Sets the value to the right child
+		cout << printVariable->value << " | "; //Prints the output
+	}
+};
+
+
+//Main Logic
+int main() 
+{
+	Queue Queue;
+	BST BST;
+	menuLists sampleLists;
+	while(mainMenuLoop)//This is the main Loop of the program
+	{
+		system("CLS");
+		sampleLists.mainMenuList();
+		cin >> mainListChoice;
+		if(mainListChoice==1)//Option #1 Queue
+		{
+			system("CLS");
+			do{
+				queueLoop = true;
+				cout << "Enter the size of the Queue:";
+				cin >> queueSize;
+				if(queueSize<=0){cout<<"Invalid Input!\n";}//Invalid Input Text
+			}while(queueSize<=0);//Looper, Check if the value for the size is a positive Integer
+			Queue.setQueueSize(queueSize);//Sets the Queue Size
+			while(queueLoop)//Loops the Queue Menu Lists
+			{
+				system("CLS");
+				sampleLists.queueMenuList();
+				cin >> queueChoice;
+				if(queueChoice==1)//Enqueue Option
+				{
+					cout << "Enter Element to be Enqueued:";
+					cin >> tempVariable;
+					Queue.enqueue(tempVariable);
+					system("pause");
+				}else if(queueChoice==2)//Dequeue Option
+				{
+					int tempVariable = Queue.dequeue();
+					cout << tempVariable << " is dequeued...\n";
+					system("pause");
+				}else if(queueChoice==3)//Display Option
+				{
+					Queue.display();
+					system("pause");
+				}else if(queueChoice==4)//Check Front
+				{
+					cout << "\nThis is the front Value:" << Queue.checkFront() << endl;
+					system("pause");
+				}else if(queueChoice==5)//Check Rear
+				{
+					cout << "\nThis is the rear Value:" << Queue.checkRear() << endl;
+					system("pause");
+				}else if(queueChoice==6){//Exits the Loop
+					queueLoop = false;
+				}else//Invalid Inputs
+				{
+					cout << "Invalid Input!\n";
+					system("pause");
+				}
+			}
+		}else if(mainListChoice==2)//Main option #2 BINARY TREE
+		{
+			binaryLoop = true;
+			while(binaryLoop)//Loops the Binary Tree Menu Lists
+			{
+				TreeNode *new_node = new TreeNode();
+				system("CLS");
+				sampleLists.binaryMenuList();
+				cin >> binaryChoice;
+				if(binaryChoice==1)//Insert value to nodes
+				{
+					cout << "Enter value for node:";
+					cin >> binaryTemp;
+					new_node->value = binaryTemp;
+					BST.insertNode(new_node);
+					system("pause");
+				}else if(binaryChoice==2)//Inorder Traversal Order | left, root, right
+				{
+					if(BST.root==NULL)
+					{
+						cout << "The Binary tree is Empty!\n";
+					}else
+					{
+						cout << "Inorder Traversal Output: ";
+						BST.printInorder(BST.root);
+						cout << endl;
+					}
+					system("pause");
+					
+				}else if(binaryChoice==3)//Preorder Traveral Order | root,left,right
+				{
+					if(BST.root==NULL)
+					{
+						cout << "The Binary tree is Empty!\n";
+					}else{
+						cout << "Preorder Traversal Output: ";
+						BST.printPreorder(BST.root);
+						cout << endl;
+					}
+					system("pause");
+				}else if(binaryChoice==4)//Postorder Traversal Order | left, right, root
+				{
+					if(BST.root==NULL)
+					{
+						cout << "The Binary tree is Empty!\n";
+					}else{
+						cout << "Postorder Traversal Output: ";
+						BST.printPostorder(BST.root);
+						cout << endl;
+					}
+					system("pause");
+				}else if(binaryChoice==5)//Exits the loop
+				{
+					binaryLoop = false;
+				}else
+				{
+					cout << "Invalid Input!\n";
+					system("pause");
+				}
+			}
+		}
+		else if(mainListChoice==3)//Main menu Exit
+		{
+			cout << "Program Closed...";
+			mainMenuLoop = false;
+		}else//Invalid Input
+		{
+			cout << "Invalid Input!\n";
+			system("pause");
+		}
+	}
+	return 0;
+}
+
+
