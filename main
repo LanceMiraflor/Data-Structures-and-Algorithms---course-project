@@ -387,7 +387,7 @@ int main()
 		}
 		else if(mainListChoice==3)//Main menu Exit
 		{
-			cout << "Program Closed...";
+			cout << "Program Closed...\nThank you for your time!\n( 0 - 0)-";
 			mainMenuLoop = false;
 		}else//Invalid Input
 		{
